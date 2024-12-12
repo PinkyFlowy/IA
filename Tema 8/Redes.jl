@@ -306,13 +306,13 @@ el conjunto de datos sobre el que estamos calculando el error.
 
 function errorAbsoluto(D, F, Y)
 N = length(D)
-err = abs.(F.(D) .-Y)
+err = sum(abs.(F.(D) .-Y))
 err/N
 end
 
 function errorCuadratico(D, F, Y)
     N = length(D)
-    err = abs.(F.(D) .-Y) ^ 2
+    err = sub(abs.(F.(D) .-Y) ^ 2)
     sqrt(err/N)
     end
 
@@ -566,7 +566,7 @@ que tiene el valor objetivo (a predecir), y preparar los conjuntos de train y
 test.
 =#
 
-iris = CSV.read("../CSV/iris.csv", DataFrame)
+iris = CSV.read("./CSV/iris.csv", DataFrame)
 describe(iris)
 
 # Separación de Características/Objetivo
@@ -663,7 +663,7 @@ interpretar que ha conseguido almacenar en la capa intermedia la información qu
 necesita para recuperar todo el dato original (de n dimensiones), pero usando k 
 dimensiones.
 
-Si la red completa es capaz de calcular la función identidad, sabremos que el 
+Si la red completa es capaz deo calcular la función identidad, sabremos que el 
 vector que sale de la capa media contiene toda la información importante del 
 dato de entrada (porque a partir de esa información, la red es capaz de 
 reconstruir la entrada completa).
@@ -732,7 +732,7 @@ end
 cod, decod = codDecod(red2, 3)
 fr(r, x)   = NN.feed_forward(r, x)
 # Hacemos unas cuantas pruebas al azar
-for i in 1:10
+for i in 1:10o
     x = rand(4)
     println(fr(decod, fr(cod, x)) == fr(red2, x))
 end
@@ -768,3 +768,9 @@ X2_coory   = last.(fX2)
 colors     = [:red, :green, :blue]
 markcolors = [colors[argmax(v)] for v in y]
 scatter(X2_coorx, X2_coory, mc=markcolors)
+
+
+# EJERCICIO 1 BOLETIN
+
+vino = CSV.read("./CSV/winequality-white.csv",DataFrame)
+describe(vino)
