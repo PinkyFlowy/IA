@@ -191,9 +191,9 @@ function Codo(D, N, rep)
 	plot(pots)
 end
 
-df = CSV.read("./Practicas/datasets/blob.csv", DataFrame, header = false)
-D  = [ collect(df[j, 2:3]) for j in 1:size(df, 1) ]
-Codo(D, 10, 20)
+#df = CSV.read("./Practicas/datasets/blob.csv", DataFrame, header = false)
+#D  = [ collect(df[j, 2:3]) for j in 1:size(df, 1) ]
+#Codo(D, 10, 20)
 
 ##########
 # DBSCAN #
@@ -257,9 +257,9 @@ pl
 
 # Ejemplo 2
 
-df = CSV.read("./Practicas/datasets/blob.csv", DataFrame, header=false)
-D  = [ collect(df[j, 2:3]) for j in 1:size(df, 1) ]
-pl = plot(first.(D), last.(D), seriestype="scatter", mc=:white, markersize=2)
+#df = CSV.read("./Practicas/datasets/blob.csv", DataFrame, header=false)
+#D  = [ collect(df[j, 2:3]) for j in 1:size(df, 1) ]
+#pl = plot(first.(D), last.(D), seriestype="scatter", mc=:white, markersize=2)
 
 # Función de test para DBSCAN
 function testDBSCAN(D,ϵ,min_pts)
