@@ -121,3 +121,62 @@ end
 
 calcula_MatrizConfusion(Xtrain, Ytrain)
 calcula_MatrizConfusion(Xtest, Ytest)
+
+# EJERCICIO 2
+
+iris = CSV.read("./CSV/iris.csv", DataFrame, header = true)
+describe(iris)
+
+
+
+y,x = unpack(iris, ==(:class))
+
+y = collect(onehot(y))
+clases = unique(y)
+
+
+(Xtrain, Xtest), (Ytrain,Ytest) = partition((x,y),  0.8, rng=123, multi=true) 
+
+Xtrain = df_to_vectors(Xtrain)
+describe(Xtrain)
+
+Xtest = df_to_vectors(Xtest)
+
+n_iris = NN.Network([4,3,3])
+NN.SGD(n_iris, Xtrain, Ytrain, 1000, 10, 0.4)
+
+function error_crabs(X, y, red)
+    err2 = 0
+    for (x1, y1) in zip(X, y)
+        class_real = argmax(y1)
+        y2         = NN.feed_forward(red, x1)
+        class_red  = argmax(y2)
+        marca      = ""
+        if class_red != class_real
+            err2  = err2 + 1
+            marca = "*"
+        end
+        println("class = $class_real (r(x) = $class_red)$marca")
+    end
+    println("Error: $(err2/length(y))")
+end
+
+error_crabs(Xtrain, Ytrain, n_iris)
+error_crabs(Xtest, Ytest, n_iris)
+
+function calcula_MatrizConfusion(X_d, Y_d, red)
+    M = zeros(length(clases), length(clases))
+    for (x, y) in zip(X_d, Y_d)
+        o_red  = NN.feed_forward(red, x)
+        y_red  = argmax(o_red)
+        y_real = argmax(y)
+        if y_red != y_real
+            M[y_real, y_red] = M[y_real, y_red] + 1
+        end
+    end
+    p = heatmap(clases, clases, M, color=:greys, clim=(0, 5))
+    display(p)
+    return M
+end
+calcula_MatrizConfusion(Xtrain, Ytrain, n_iris)
+calcula_MatrizConfusion(Xtest, Ytest, n_iris)

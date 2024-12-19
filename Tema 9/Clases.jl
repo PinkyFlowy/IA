@@ -36,7 +36,3 @@ D  = [ collect(X[j, 1:end]) for j in 1:size(X, 1)]
 Codo(D, 10,20)
 
 Y = k_medias(D, 3)
-
-function error (D)
-    for i in D.Class
-        for 
