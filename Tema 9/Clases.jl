@@ -36,3 +36,18 @@ D  = [ collect(X[j, 1:end]) for j in 1:size(X, 1)]
 Codo(D, 10,20)
 
 Y = k_medias(D, 3)
+
+function error_cluster(Cls, df)
+    error = 0
+    for k in 1:3 # Clusters
+        for i in 1:length(Cls[k])
+            for j in i+1:length(Cls[k])
+                if df[Cls[k][i], :class] != df[Cls[k][j], :class]
+                    error += 1
+                end
+            end
+        end
+    end
+    # Calculamos el error como el número de pares que no coinciden de cluster / n^2, donde n es el número de elementos
+    return error / (nrow(df)^2)
+end
